@@ -29,27 +29,28 @@ func NewProtocolCacheService(service ProtocolService, cache *redis.Client) Proto
 }
 
 func (p *ProtocolCacheService) NewProtocol() (string, error) {
-	var methodError error
+	return p.newProtocol(MaxRetryGenerateProtocol)
+}
 
-	for i := 0; i < MaxRetryGenerateProtocol; i++ {
-		methodError = nil
-		protocol, _ := p.targetService.NewProtocol()
+func (p *ProtocolCacheService) newProtocol(retryCount int8) (string, error) {
+	protocol, _ := p.targetService.NewProtocol()
+	exists, err := p.cache.Exists(ctx, protocol).Result()
 
-		exists, cacheExistsErr := p.cache.Exists(ctx, protocol).Result()
-		if exists > 0 {
-			methodError = protocolAlreadyExistError
-		}
-		if cacheExistsErr != nil {
-			methodError = cacheExistsErr
-			continue
-		}
+	if exists > 0 {
+		err = protocolAlreadyExistError
+	}
 
-		result, cacheSetErr := p.cache.Set(ctx, protocol, true, Day).Result()
+	if err == nil {
+		var result string
+		result, err = p.cache.Set(ctx, protocol, true, Day).Result()
 		if result == CacheSuccessResult {
 			return protocol, nil
 		}
-		methodError = cacheSetErr
 	}
 
-	return "", methodError
+	if retryCount <= 0 {
+		return "", err
+	}
+
+	return p.newProtocol(retryCount - 1)
 }
