@@ -17,14 +17,14 @@ var (
 )
 
 type ProtocolCacheService struct {
-	targetServer ProtocolService
-	cache        *redis.Client
+	targetService ProtocolService
+	cache         *redis.Client
 }
 
 func NewProtocolCacheService(service ProtocolService, cache *redis.Client) ProtocolService {
 	return &ProtocolCacheService{
-		targetServer: service,
-		cache:        cache,
+		targetService: service,
+		cache:         cache,
 	}
 }
 
@@ -33,7 +33,7 @@ func (p *ProtocolCacheService) NewProtocol() (string, error) {
 
 	for i := 0; i < MaxRetryGenerateProtocol; i++ {
 		methodError = nil
-		protocol, _ := p.targetServer.NewProtocol()
+		protocol, _ := p.targetService.NewProtocol()
 
 		exists, cacheExistsErr := p.cache.Exists(ctx, protocol).Result()
 		if exists > 0 {
