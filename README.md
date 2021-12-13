@@ -5,7 +5,7 @@ Protocol generator API in GO.
 The PGen is a microservice created to generate service protocols for any type of services.
 These protocols are readable so that people can easily record
 
-The protocol number consists of 16 digits (by default), the first 8 (fixed) being the current date 
+The protocol number consists of 16 digits (by default), the first 8 (fixed) being the current date
 and the last (configurable) random:
 
 	Format: 'YYYYMMDD????????' sample: 2021120912345678
@@ -19,14 +19,16 @@ and the last (configurable) random:
 
 - Clone de project:
   - `git@github.com:gbzarelli/pgen.git`
-- Go to `pgen` directory: 
+- Go to `pgen` directory:
   - `$cd pgen/`
 - Start the infrastructure
   - `$docker-compose up -d`
+- Build the project
+  - `go build`
 - Run the project
   - `go run main.go`
 
-If needed custom the decimal places value to generate a new protocol (default 8), just 
+If needed custom the decimal places value to generate a new protocol (default 8), just
 create na env `PROTOCOL_DECIMAL_PLACES_AFTER_DATE` with the value.
 
 ## API

@@ -19,3 +19,12 @@ func GetIntegerEnv(envName string, defaultValue int) int {
 	}
 	return intValue
 }
+
+func GetStringEnv(envName string, defaultValue string) string {
+	envValue := os.Getenv(envName)
+	if envValue == "" {
+		log.Printf("Env %s not defined. Using default value: %s", envName, defaultValue)
+		return defaultValue
+	}
+	return envValue
+}
