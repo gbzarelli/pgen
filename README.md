@@ -21,15 +21,36 @@ and the last (configurable) random:
   - `git@github.com:gbzarelli/pgen.git`
 - Go to `pgen` directory:
   - `$cd pgen/`
-- Start the infrastructure
-  - `$docker-compose up -d`
-- Build the project
-  - `go build`
-- Run the project
-  - `go run main.go`
+- Build project
+  - Prepare dependencies
+    - `$make dependencies`
+  - Build project
+    - `$make build`
 
-If needed custom the decimal places value to generate a new protocol (default 8), just
-create na env `PROTOCOL_DECIMAL_PLACES_AFTER_DATE` with the value.
+### Run with Docker
+
+- Generate Dockerfile
+  - `$make build-docker`
+- Run full stack:
+  - `$docker-compose -f .docker-compose/docker-compose.yml up`
+
+### Run in project
+
+- Run the dependencies (infra / redis):
+  - `$docker-compose -f  .docker-compose/docker-compose-stack.yml docker-compose-stack.yml up`
+- Run project
+  - `$go run main.go`
+
+### Envs
+
+Custom the decimal places value to generate a new protocol (default 8):
+- `PROTOCOL_DECIMAL_PLACES_AFTER_DATE`
+  - Default in Project and Dockerfile: 8
+
+Custom Redis address:
+- `REDIS_ADDRESS`
+  - Default in Project: localhost:6379
+  - Default in Dockerfile: redis:6379
 
 ## API
 
