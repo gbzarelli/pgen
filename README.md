@@ -17,6 +17,8 @@ and the last (configurable) random:
 
 # Instructions to Run
 
+### Prepare
+
 - Clone de project:
   - `git@github.com:gbzarelli/pgen.git`
 - Go to `pgen` directory:
@@ -37,7 +39,7 @@ and the last (configurable) random:
 ### Run in project
 
 - Run the dependencies (infra / redis):
-  - `$docker-compose -f  .docker-compose/docker-compose-stack.yml docker-compose-stack.yml up`
+  - `$docker-compose -f  .docker-compose/docker-compose-stack.yml up`
 - Run project
   - `$go run main.go`
 
