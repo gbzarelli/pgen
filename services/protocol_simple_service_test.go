@@ -2,10 +2,12 @@ package services
 
 import (
 	"github.com/stretchr/testify/assert"
+	"strings"
 	"testing"
+	"time"
 )
 
-func TestGenerateNewProtocol(t *testing.T) {
+func TestGenerateNewProtocolWithSuccess(t *testing.T) {
 	decimalPlacesAfterDate := 8
 	expectedDecimalPlacesInProtocol := decimalPlacesAfterDate + DefaultProtocolDecimalPlacesAfterDate
 	ps := NewProtocolService(DefaultProtocolDecimalPlacesAfterDate)
@@ -13,6 +15,17 @@ func TestGenerateNewProtocol(t *testing.T) {
 	protocol, _ := ps.NewProtocol()
 
 	assert.Equal(t, expectedDecimalPlacesInProtocol, len(protocol))
+}
+
+func TestGenerateNewProtocolMustBeStartWithDefaultDateFormatAndExpectedLen(t *testing.T) {
+	asserts := assert.New(t)
+	expectedProtocolPrefix := time.Now().Format(DateFormat)
+	expectedDigits := len(DateFormat) + DefaultProtocolDecimalPlacesAfterDate
+	ps := NewProtocolService(DefaultProtocolDecimalPlacesAfterDate)
+
+	protocol, _ := ps.NewProtocol()
+	asserts.True(strings.HasPrefix(protocol, expectedProtocolPrefix))
+	asserts.Equal(expectedDigits, len(protocol))
 }
 
 func TestGenerateNewProtocolWithCorrectlyDecimalPlaces(t *testing.T) {
