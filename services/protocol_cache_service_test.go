@@ -1,6 +1,7 @@
 package services
 
 import (
+	"errors"
 	"fmt"
 	"github.com/go-redis/redismock/v8"
 	"github.com/stretchr/testify/assert"
@@ -78,6 +79,45 @@ func TestGenerateNewProtocolWithExistsInCache(t *testing.T) {
 		asserts.Equal(expectedProtocol, protocol)
 		asserts.Nil(err)
 		pServiceMock.AssertNumberOfCalls(t, "NewProtocol", 5)
+	})
+}
+
+func TestNotGenerateNewProtocol(t *testing.T) {
+	t.Run("not generate when cache is out", func(t *testing.T) {
+		asserts := assert.New(t)
+		cacheService, cacheMock, pServiceMock := prepareServicesAndMocks()
+		protocol := "fake"
+		cacheError := errors.New("out")
+
+		cacheMock.ExpectExists(protocol).SetErr(cacheError)
+		for i := 1; i <= MaxRetryGenerateProtocol; i++ {
+			cacheMock.ExpectExists(fmt.Sprintf("%s-%d", protocol, i)).SetErr(cacheError)
+		}
+		pServiceMock.On("NewProtocol").Return(protocol, nil)
+
+		protocol, err := cacheService.NewProtocol()
+
+		asserts.NotNil(err)
+		asserts.Equal(cacheError, err)
+		pServiceMock.AssertNumberOfCalls(t, "NewProtocol", MaxRetryGenerateProtocol+1)
+	})
+
+	t.Run("not generate when always protocols already exists", func(t *testing.T) {
+		asserts := assert.New(t)
+		cacheService, cacheMock, pServiceMock := prepareServicesAndMocks()
+		protocol := "fake"
+
+		cacheMock.ExpectExists(protocol).SetVal(1)
+		for i := 1; i <= MaxRetryGenerateProtocol; i++ {
+			cacheMock.ExpectExists(fmt.Sprintf("%s-%d", protocol, i)).SetVal(1)
+		}
+		pServiceMock.On("NewProtocol").Return(protocol, nil)
+
+		protocol, err := cacheService.NewProtocol()
+
+		asserts.NotNil(err)
+		asserts.Equal(protocolAlreadyExistError, err)
+		pServiceMock.AssertNumberOfCalls(t, "NewProtocol", MaxRetryGenerateProtocol+1)
 	})
 }
 
