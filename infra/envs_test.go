@@ -11,6 +11,7 @@ func TestGetIntegerValueEnv(t *testing.T) {
 	realValue2 := 30
 	os.Setenv("REAL_ENV_1", strconv.Itoa(realValue1))
 	os.Setenv("REAL_ENV_2", strconv.Itoa(realValue2))
+	os.Setenv("REAL_ENV_3", "ABC")
 
 	type args struct {
 		envName      string
@@ -25,6 +26,7 @@ func TestGetIntegerValueEnv(t *testing.T) {
 		{"get default value", args{envName: "TEST-2", defaultValue: 10}, 10},
 		{"get real value", args{envName: "REAL_ENV_1", defaultValue: 1}, realValue1},
 		{"get real value", args{envName: "REAL_ENV_2", defaultValue: 1}, realValue2},
+		{"get default value when the real value is not int", args{envName: "REAL_ENV_3", defaultValue: 1}, 1},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

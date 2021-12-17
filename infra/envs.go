@@ -16,6 +16,7 @@ func GetIntegerEnv(envName string, defaultValue int) int {
 	if converterError != nil {
 		log.Printf("Error to convert env %s with value: %s to integer value. Using default value: %d",
 			envName, envValue, defaultValue)
+		return defaultValue
 	}
 	return intValue
 }
