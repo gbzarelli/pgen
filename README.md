@@ -1,3 +1,9 @@
+![Issues](https://img.shields.io/github/issues/gbzarelli/pgen.svg)
+![Forks](https://img.shields.io/github/forks/gbzarelli/pgen.svg)
+![Stars](https://img.shields.io/github/stars/gbzarelli/pgen.svg)
+![Release Version](https://img.shields.io/github/release/gbzarelli/pgen.svg)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/326bae7f15244e488de6d8aaa94ae17b)](https://www.codacy.com/gh/gbzarelli/pgen/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=gbzarelli/pgen&amp;utm_campaign=Badge_Grade)
+
 # PGen (building... learning GO Lang...)
 
 Protocol generator API in GO.
