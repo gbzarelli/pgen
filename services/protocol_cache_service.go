@@ -17,8 +17,8 @@ const MaxRetryGenerateProtocol = 10
 const CacheSuccessResult = "OK"
 
 var (
-	ctx                       = context.TODO()
-	protocolAlreadyExistError = errors.New("impossible to generate a non-existent protocol")
+	ctx                     = context.TODO()
+	errProtocolAlreadyExist = errors.New("impossible to generate a non-existent protocol")
 )
 
 // ProtocolCacheService struct to manage the protocol cache service
@@ -45,7 +45,7 @@ func (p *ProtocolCacheService) newProtocol(retryCount int8) (string, error) {
 	exists, err := p.cache.Exists(ctx, protocol).Result()
 
 	if exists > 0 {
-		err = protocolAlreadyExistError
+		err = errProtocolAlreadyExist
 	}
 
 	if err == nil {

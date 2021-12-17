@@ -114,7 +114,7 @@ func TestNotGenerateNewProtocol(t *testing.T) {
 		protocol, err := cacheService.NewProtocol()
 
 		asserts.NotNil(err)
-		asserts.Equal(protocolAlreadyExistError, err)
+		asserts.Equal(errProtocolAlreadyExist, err)
 		pServiceMock.AssertNumberOfCalls(t, "NewProtocol", MaxRetryGenerateProtocol+1)
 	})
 

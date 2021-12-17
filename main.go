@@ -15,7 +15,7 @@ func main() {
 
 	protocolController := controllers.NewProtocolController(serviceCache)
 
-	ginHttpServer := infra.NewGinHTTPServer()
-	infra.ConfigureRoutes(ginHttpServer, protocolController)
-	ginHttpServer.RunServer()
+	ginHTTPServer := infra.NewGinHTTPServer()
+	infra.ConfigureRoutes(ginHTTPServer, protocolController)
+	ginHTTPServer.RunServer()
 }
