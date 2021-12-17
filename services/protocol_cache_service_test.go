@@ -6,6 +6,7 @@ import (
 	"github.com/go-redis/redismock/v8"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
+	"strings"
 	"testing"
 )
 
@@ -107,10 +108,7 @@ func TestNotGenerateNewProtocol(t *testing.T) {
 		cacheService, cacheMock, pServiceMock := prepareServicesAndMocks()
 		protocol := "fake"
 
-		cacheMock.ExpectExists(protocol).SetVal(1)
-		for i := 1; i <= MaxRetryGenerateProtocol; i++ {
-			cacheMock.ExpectExists(fmt.Sprintf("%s-%d", protocol, i)).SetVal(1)
-		}
+		setExistsValueInCacheForAllRetries(cacheMock, protocol, 1)
 		pServiceMock.On("NewProtocol").Return(protocol, nil)
 
 		protocol, err := cacheService.NewProtocol()
@@ -119,6 +117,28 @@ func TestNotGenerateNewProtocol(t *testing.T) {
 		asserts.Equal(protocolAlreadyExistError, err)
 		pServiceMock.AssertNumberOfCalls(t, "NewProtocol", MaxRetryGenerateProtocol+1)
 	})
+
+	t.Run("not generate when some error in set cache", func(t *testing.T) {
+		asserts := assert.New(t)
+		cacheService, cacheMock, pServiceMock := prepareServicesAndMocks()
+		protocol := "fake"
+
+		setExistsValueInCacheForAllRetries(cacheMock, protocol, 0)
+		pServiceMock.On("NewProtocol").Return(protocol, nil)
+
+		protocol, err := cacheService.NewProtocol()
+
+		asserts.NotNil(err)
+		asserts.Equal(true, strings.Contains(err.Error(), "call to cmd '[set"))
+		pServiceMock.AssertNumberOfCalls(t, "NewProtocol", MaxRetryGenerateProtocol+1)
+	})
+}
+
+func setExistsValueInCacheForAllRetries(cacheMock redismock.ClientMock, protocol string, value int64) {
+	cacheMock.ExpectExists(protocol).SetVal(value)
+	for i := 1; i <= MaxRetryGenerateProtocol; i++ {
+		cacheMock.ExpectExists(fmt.Sprintf("%s-%d", protocol, i)).SetVal(value)
+	}
 }
 
 func prepareServicesAndMocks() (ProtocolService, redismock.ClientMock, *MockProtocolService) {
