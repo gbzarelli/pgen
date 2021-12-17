@@ -6,23 +6,27 @@ import (
 	"strconv"
 )
 
-type GinHttpServer struct {
+// GinHTTPServer struct to manage GinHTTPServer
+type GinHTTPServer struct {
 	port   uint16
 	engine *gin.Engine
 }
 
-func NewGinHttpServer() *GinHttpServer {
-	return &GinHttpServer{
+// NewGinHTTPServer Create a new instance of GinHTTPServer
+func NewGinHTTPServer() *GinHTTPServer {
+	return &GinHTTPServer{
 		port:   5000,
 		engine: gin.Default(),
 	}
 }
 
-func (httpServer *GinHttpServer) RunServer() {
+// RunServer Just Run Server
+func (httpServer *GinHTTPServer) RunServer() {
 	serverAddress := ":" + strconv.Itoa(int(httpServer.port))
 	log.Fatal(httpServer.engine.Run(serverAddress))
 }
 
-func (httpServer *GinHttpServer) GetEngine() *gin.Engine {
+// GetEngine Get the gin.Engine
+func (httpServer *GinHTTPServer) GetEngine() *gin.Engine {
 	return httpServer.engine
 }

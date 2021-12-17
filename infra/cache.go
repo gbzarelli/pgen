@@ -4,13 +4,13 @@ import (
 	"github.com/go-redis/redis/v8"
 )
 
-const RedisAddressEnv = "REDIS_ADDRESS"
-
+// CacheRedis struct to manage the cache
 type CacheRedis struct {
 	opts   *redis.Options
 	client *redis.Client
 }
 
+// NewCacheRedis Create a new instance of Redis using redis.NewClient
 func NewCacheRedis() *CacheRedis {
 	opts := &redis.Options{
 		Addr:     GetStringEnv(RedisAddressEnv, "localhost:6379"),
@@ -23,6 +23,7 @@ func NewCacheRedis() *CacheRedis {
 	}
 }
 
+// GetClient Return the redis.Client
 func (cr *CacheRedis) GetClient() *redis.Client {
 	return cr.client
 }

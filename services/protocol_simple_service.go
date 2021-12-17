@@ -7,21 +7,31 @@ import (
 	"time"
 )
 
+// DateFormat The date format used to protocol prefix
 const DateFormat = "20060102"
+
+// DefaultProtocolDecimalPlacesAfterDate Number default to decimal places after date
 const DefaultProtocolDecimalPlacesAfterDate = 8
 
+// ProtocolServiceImpl struct to manage the protocol service
 type ProtocolServiceImpl struct {
 	decimalPlacesAfterDate int
 	decimalPlacesFormat    string
 	maxRandomValue         int
 }
 
+// NewProtocolService Create a new instance of NewProtocolService
 func NewProtocolService(decimalPlacesAfterDate int) ProtocolService {
 	return &ProtocolServiceImpl{
 		decimalPlacesAfterDate: decimalPlacesAfterDate,
 		decimalPlacesFormat:    "%0" + strconv.Itoa(decimalPlacesAfterDate) + "d",
 		maxRandomValue:         maxRandomValueFromDecimalPlaces(decimalPlacesAfterDate),
 	}
+}
+
+// NewProtocol method to generate a new protocol
+func (pService *ProtocolServiceImpl) NewProtocol() (string, error) {
+	return time.Now().Format(DateFormat) + pService.getComplementForProtocol(), nil
 }
 
 func maxRandomValueFromDecimalPlaces(decimalPlacesAfterDate int) int {
@@ -31,10 +41,6 @@ func maxRandomValueFromDecimalPlaces(decimalPlacesAfterDate int) int {
 	}
 	value, _ := strconv.Atoi(stringToConcat)
 	return value
-}
-
-func (pService *ProtocolServiceImpl) NewProtocol() (string, error) {
-	return time.Now().Format(DateFormat) + pService.getComplementForProtocol(), nil
 }
 
 func (pService *ProtocolServiceImpl) getComplementForProtocol() string {

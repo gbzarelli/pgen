@@ -5,7 +5,7 @@ ENV PROTOCOL_DECIMAL_PLACES_AFTER_DATE=8
 ENV REDIS_ADDRESS='redis:6379'
 
 RUN mkdir /app
-ADD . /app
+COPY . /app
 
 WORKDIR /app
 

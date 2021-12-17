@@ -6,6 +6,13 @@ import (
 	"strconv"
 )
 
+// ProtocolDecimalPlacesAfterDateEnv Const to register the environment name
+const ProtocolDecimalPlacesAfterDateEnv = "PROTOCOL_DECIMAL_PLACES_AFTER_DATE"
+
+// RedisAddressEnv Const to register the environment name
+const RedisAddressEnv = "REDIS_ADDRESS"
+
+// GetIntegerEnv Get the integer value or default from environment
 func GetIntegerEnv(envName string, defaultValue int) int {
 	envValue := os.Getenv(envName)
 	if envValue == "" {
@@ -21,6 +28,7 @@ func GetIntegerEnv(envName string, defaultValue int) int {
 	return intValue
 }
 
+// GetStringEnv Get the string value or default from environment
 func GetStringEnv(envName string, defaultValue string) string {
 	envValue := os.Getenv(envName)
 	if envValue == "" {

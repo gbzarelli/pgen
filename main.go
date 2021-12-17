@@ -6,18 +6,16 @@ import (
 	"github.com/gbzarelli/pgen/services"
 )
 
-const ProtocolDecimalPlacesAfterDateEnv = "PROTOCOL_DECIMAL_PLACES_AFTER_DATE"
-
 func main() {
 	cache := infra.NewCacheRedis()
 
-	decimalPlaces := infra.GetIntegerEnv(ProtocolDecimalPlacesAfterDateEnv, services.DefaultProtocolDecimalPlacesAfterDate)
+	decimalPlaces := infra.GetIntegerEnv(infra.ProtocolDecimalPlacesAfterDateEnv, services.DefaultProtocolDecimalPlacesAfterDate)
 	service := services.NewProtocolService(decimalPlaces)
 	serviceCache := services.NewProtocolCacheService(service, cache.GetClient())
 
 	protocolController := controllers.NewProtocolController(serviceCache)
 
-	ginHttpServer := infra.NewGinHttpServer()
+	ginHttpServer := infra.NewGinHTTPServer()
 	infra.ConfigureRoutes(ginHttpServer, protocolController)
 	ginHttpServer.RunServer()
 }
