@@ -14,6 +14,7 @@ and the last (configurable) random:
 
 - [Gin - Go Web Framework](https://github.com/gin-gonic/gin)
 - [Redis - KV NoSQL for Cache](https://github.com/go-redis)
+- [Testify - Asserts and Mocks](https://github.com/stretchr/testify)
 
 # Instructions to Run
 
