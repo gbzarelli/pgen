@@ -5,6 +5,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// Prometheus struct to manage Prometheus with gin-gonic
 type Prometheus struct {
 	GinPrometheus *ginprom.Prometheus
 }
