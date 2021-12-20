@@ -1,9 +1,7 @@
-package infra
-
-import "github.com/gbzarelli/pgen/controllers"
+package api
 
 // ConfigureRoutes Configure HTTP routes in GinHTTPServer
-func ConfigureRoutes(server *GinHTTPServer, protocolController *controllers.ProtocolController) {
+func ConfigureRoutes(server *GinHTTPServer, protocolController *ProtocolController) {
 	mainGroup := server.GetEngine().Group("v1")
 	{
 		protocolGroup := mainGroup.Group("protocol")

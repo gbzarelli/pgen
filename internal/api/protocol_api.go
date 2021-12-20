@@ -1,17 +1,17 @@
-package controllers
+package api
 
 import (
-	"github.com/gbzarelli/pgen/services"
+	"github.com/gbzarelli/pgen/internal/service"
 	"github.com/gin-gonic/gin"
 )
 
 // ProtocolController struct to manage the protocol controller
 type ProtocolController struct {
-	service services.ProtocolService
+	service service.ProtocolService
 }
 
 // NewProtocolController Create a new instance of ProtocolController
-func NewProtocolController(service services.ProtocolService) *ProtocolController {
+func NewProtocolController(service service.ProtocolService) *ProtocolController {
 	return &ProtocolController{service: service}
 }
 

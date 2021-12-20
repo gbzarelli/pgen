@@ -41,12 +41,12 @@ and the last (configurable) random:
 - Generate Dockerfile
   - `$make build-docker`
 - Run full stack:
-  - `$docker-compose -f .docker-compose/docker-compose.yml up`
+  - `$make run-docker-compose`
 
 ### Run in project
 
 - Run the dependencies (infra / redis):
-  - `$docker-compose -f  .docker-compose/docker-compose-stack.yml up`
+  - `$make run-docker-stack`
 - Run project
   - `$go run main.go`
 

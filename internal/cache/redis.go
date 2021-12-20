@@ -1,6 +1,7 @@
-package infra
+package cache
 
 import (
+	"github.com/gbzarelli/pgen/internal/envvar"
 	"github.com/go-redis/redis/v8"
 )
 
@@ -10,10 +11,10 @@ type CacheRedis struct {
 	client *redis.Client
 }
 
-// NewCacheRedis Create a new instance of Redis using redis.NewClient
+// NewCacheRedis Create a new instance of Redis using cache.NewClient
 func NewCacheRedis() *CacheRedis {
 	opts := &redis.Options{
-		Addr:     GetStringEnv(RedisAddressEnv, "localhost:6379"),
+		Addr:     envvar.GetStringEnv(envvar.RedisAddressEnv, "localhost:6379"),
 		Password: "", // no password set
 		DB:       0,  // use default DB
 	}
@@ -23,7 +24,7 @@ func NewCacheRedis() *CacheRedis {
 	}
 }
 
-// GetClient Return the redis.Client
+// GetClient Return the cache.Client
 func (cr *CacheRedis) GetClient() *redis.Client {
 	return cr.client
 }
