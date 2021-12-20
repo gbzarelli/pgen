@@ -82,6 +82,12 @@ curl --request POST --url http://localhost:5000/v1/protocol
 
 ## Metrics by prometheus
 
+#### View metrics by app
+
 ```shell
 curl --request GET --url http://localhost:5000/metrics
 ```
+
+#### Prometheus
+
+If you run by docker just open prometheus in: `http://localhost:9090/`
