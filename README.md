@@ -21,6 +21,7 @@ and the last (configurable) random:
 - [Gin - Go Web Framework](https://github.com/gin-gonic/gin)
 - [Redis - KV NoSQL for Cache](https://github.com/go-redis)
 - [Testify - Asserts and Mocks](https://github.com/stretchr/testify)
+- [Metrics - GinProm by Depado](https://github.com/Depado/ginprom)
 
 # Instructions to Run
 
@@ -65,13 +66,22 @@ Custom Redis address:
 
 The project starts in `localhost:5000` with a unique endpoint to generate a new protocol:
 
-### Request:
-``
-curl --request POST --url http://localhost:5000/v1/protocol
-``
+## Endpoint: v1/protocol
 
-### Response:
+#### Request:
+
+```shell
+curl --request POST --url http://localhost:5000/v1/protocol
+```
+
+#### Response:
 
 ```json
 201 {"protocol": "2021121204066844"}
+```
+
+## Metrics by prometheus
+
+```shell
+curl --request GET --url http://localhost:5000/metrics
 ```
