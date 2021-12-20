@@ -9,6 +9,7 @@ type Prometheus struct {
 	GinPrometheus *ginprom.Prometheus
 }
 
+// NewGinPrometheus Crate a new instance of Prometheus configured to gin
 func NewGinPrometheus(gin *gin.Engine) *Prometheus {
 	return &Prometheus{GinPrometheus: ginprom.New(
 		ginprom.Engine(gin),
